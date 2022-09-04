@@ -209,7 +209,7 @@ const TinderCard = React.forwardRef(({ flickOnSwipe = true, children, onSwipe, o
     let swipeThresholdFulfilledDirection = 'none'
 
     element.current.addEventListener(('touchstart'), (ev) => {
-      ev.preventDefault()
+      //ev.preventDefault()
       handleSwipeStart()
       offset = { x: -touchCoordinatesFromEvent(ev).x, y: -touchCoordinatesFromEvent(ev).y }
     })
@@ -254,7 +254,7 @@ const TinderCard = React.forwardRef(({ flickOnSwipe = true, children, onSwipe, o
     })
 
     element.current.addEventListener(('touchend'), (ev) => {
-      ev.preventDefault()
+      //ev.preventDefault()
       handleSwipeReleased(element.current, speed)
     })
 
