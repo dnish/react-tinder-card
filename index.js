@@ -142,7 +142,7 @@ const mouseCoordinatesFromEvent = (e) => {
   return { x: e.clientX, y: e.clientY }
 }
 
-const TinderCard = React.forwardRef(({ flickOnSwipe = true, children, onSwipe, onCardLeftScreen, className, preventSwipe = [], swipeRequirementType = 'velocity', swipeThreshold = settings.swipeThreshold, onSwipeRequirementFulfilled, onSwipeRequirementUnfulfilled }, ref) => {
+const TinderCard = React.forwardRef(({ flickOnSwipe = true, children, onSwipe, onCardLeftScreen, className, preventSwipe = () => [], swipeRequirementType = 'velocity', swipeThreshold = settings.swipeThreshold, onSwipeRequirementFulfilled, onSwipeRequirementUnfulfilled }, ref) => {
   settings.swipeThreshold = swipeThreshold
   const swipeAlreadyReleased = React.useRef(false)
 
@@ -180,10 +180,10 @@ const TinderCard = React.forwardRef(({ flickOnSwipe = true, children, onSwipe, o
     const dir = getSwipeDirection(swipeRequirementType === 'velocity' ? speed : currentPostion)
 
     if (dir !== 'none') {
-      if (onSwipe) onSwipe(dir)
 
       if (flickOnSwipe) {
-        if (!preventSwipe.includes(dir)) {
+        if (!preventSwipe().includes(dir)) {
+          if (onSwipe) onSwipe(dir); // Only fire onSwipe when it is within allowed directions
           const outVelocity = swipeRequirementType === 'velocity' ? speed : normalize(currentPostion, 600)
           await animateOut(element, outVelocity)
           element.style.display = 'none'
